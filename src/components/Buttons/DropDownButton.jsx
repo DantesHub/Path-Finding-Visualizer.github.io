@@ -8,7 +8,7 @@ class Dropdown extends React.Component {
     this.state = {
       displayMenu: false
     };
-
+    
     this.showDropdownMenu = this.showDropdownMenu.bind(this);
     this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
   }
@@ -28,17 +28,16 @@ class Dropdown extends React.Component {
 
   render() {
     return (
-      <div className='dropdown' style={{ background: "red", width: "200px" }}>
+      <div className='dropdown'>
         <div className='button' onClick={this.showDropdownMenu}>
-          {" "}
-          My Setting{" "}
+          Algorithms{" "}
         </div>
 
         {this.state.displayMenu ? (
           <ul>
             <li>
-              <a className='active' href='#Create Page'>
-                Create Page
+              <a className='active dijkstra' href='#Create Page'>
+                dijkstra's algo
               </a>
             </li>
             <li>
@@ -55,9 +54,6 @@ class Dropdown extends React.Component {
             </li>
             <li>
               <a href='#Setting'>Setting</a>
-            </li>
-            <li>
-              <a href='#Log Out'>Log Out</a>
             </li>
           </ul>
         ) : null}

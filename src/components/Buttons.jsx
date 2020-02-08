@@ -1,23 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
 import "./Buttons.css";
+import { connect } from "react-redux";
 import DropDown from "./Buttons/DropDownButton";
-const Buttons = props => {
+import { visualize } from "../actions/Visualize";
+const Buttons = ({ visualize }) => {
+  const vizFunc = () => {
+    visualize();
+  };
   return (
     <ul className='nav-links'>
       <DropDown className='dropdown' />
       <li>
-        <button>Testing</button>
+        <button onClick={vizFunc()}>Vizualize</button>
       </li>
       <li>
-        <button>Testin2</button>
+        <button>Clear Board</button>
       </li>
       <li>
-        <button>LOGOUT</button>
-      </li>
-      <li>
-        <button>LOGOUT</button>
+        <DropDown className='dropdown' />
       </li>
     </ul>
   );
 };
-export default Buttons;
+
+Buttons.propTypes = {
+  visualize: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  algo: state.algo
+});
+export default connect(mapStateToProps, { visualize })(Buttons);

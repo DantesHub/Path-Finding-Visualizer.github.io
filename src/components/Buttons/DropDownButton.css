@@ -22,12 +22,14 @@
   text-decoration: none;
 }
 .dropdown li {
+  margin: 0;
   padding: 8px 16px;
   border-bottom: 1px solid #e5e5e5;
 }
 .dropdown li:last-child {
-  border-bottom: none;
+  margin-right: 0;
 }
+
 .dropdown li:hover {
   background-color: #e5e5e5;
   color: white;
@@ -35,11 +37,11 @@
 .dropdown .button {
   width: 178px;
   height: 18px;
-  background-color: #ff3232;
+  background-color: #f8ea8c;
   padding: 12px;
   border-radius: 5px;
   font-weight: bold;
-  color: white;
+  color: #00aba8;
 }
 .dropdown .button:before {
   content: "";
