@@ -1,5 +1,5 @@
 const initialState = {
-  algo: "testing",
+  button: "",
   clicked: false
 };
 
@@ -9,7 +9,12 @@ export default function(state = initialState, action) {
     case "VISUALIZE":
       return {
         ...state,
-        algo: payload
+        button: payload
+      };
+    case "CLEAR_BOARD":
+      return {
+        ...state,
+        button: payload
       };
     default:
       return state;

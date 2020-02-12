@@ -1,5 +1,6 @@
-import React, { Component, Fragment } from "react";
+import React, { Component, useState, useEffect } from "react";
 import Node from "./Node/Node";
+import { connect } from "react-redux";
 import { dijkstra, getNodesInShortestPathOrder } from "../algorithms/dijkstra";
 
 import "./PathfindingVisualizer.css";
@@ -9,7 +10,7 @@ const START_NODE_COL = 15;
 const FINISH_NODE_ROW = 14;
 const FINISH_NODE_COL = 40;
 
-export default class PathfindingVisualizer extends Component {
+class PathfindingVisualizer extends Component {
   constructor() {
     super();
     this.state = {
@@ -21,6 +22,16 @@ export default class PathfindingVisualizer extends Component {
   componentDidMount() {
     const grid = getInitialGrid();
     this.setState({ grid });
+  }
+
+  componentDidUpdate(previousProps) {
+    if (this.props.button === "visualize") {
+      this.visualizeDijkstra();
+    } else if (this.props.button === "clear") {
+      if (previousProps.button !== this.props.button) {
+        this.clearBoard();
+      }
+    }
   }
 
   handleMouseDown(row, col) {
@@ -63,6 +74,17 @@ export default class PathfindingVisualizer extends Component {
       }, 50 * i);
     }
   }
+  clearBoard() {
+    // for (const row of this.grid) {
+    //   for (const node of row) {
+    //     document.getElementById(`node-${node.row}-${node.col}`).className =
+    //       "node";
+    //   }
+    // }
+    console.log("working over here");
+    const newGrid = getInitialGrid();
+    this.setState({ newGrid });
+  }
 
   visualizeDijkstra() {
     const { grid } = this.state;
@@ -78,9 +100,6 @@ export default class PathfindingVisualizer extends Component {
 
     return (
       <React.Fragment>
-        <button onClick={() => this.visualizeDijkstra()}>
-          Visualize Dijkstra's Algorithm
-        </button>
         <div className='grid'>
           {grid.map((row, rowIdx) => {
             return (
@@ -145,3 +164,9 @@ const getNewGridWithWallToggled = (grid, row, col) => {
   newGrid[row][col] = newNode;
   return newGrid;
 };
+
+const mapStateToProps = state => ({
+  button: state.buttons.button
+});
+
+export default connect(mapStateToProps)(PathfindingVisualizer);

@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
-import algorithms from "./algorithms";
+import buttons from "./buttons";
 
 export default combineReducers({
-  algorithms
+  buttons
 });
