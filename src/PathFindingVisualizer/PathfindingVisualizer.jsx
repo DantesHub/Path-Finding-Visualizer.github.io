@@ -9,12 +9,18 @@ const START_NODE_ROW = 14;
 const START_NODE_COL = 15;
 const FINISH_NODE_ROW = 14;
 const FINISH_NODE_COL = 40;
+const ROW_NUMBERS = 30;
+const COL_NUMBERS = 55;
 
 class PathfindingVisualizer extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       grid: [],
+      onStartNode: false,
+      startNode: [START_NODE_ROW, START_NODE_COL],
+      onFinishNode: false,
+      finishNode: [FINISH_NODE_ROW, FINISH_NODE_COL],
       mouseIsPressed: false
     };
   }
@@ -74,16 +80,29 @@ class PathfindingVisualizer extends Component {
       }, 50 * i);
     }
   }
+
   clearBoard() {
-    // for (const row of this.grid) {
-    //   for (const node of row) {
-    //     document.getElementById(`node-${node.row}-${node.col}`).className =
-    //       "node";
-    //   }
-    // }
-    console.log("working over here");
-    const newGrid = getInitialGrid();
-    this.setState({ newGrid });
+    const { grid, startNode, finishNode } = this.state;
+    for (let row = 0; row < ROW_NUMBERS; row++) {
+      for (let col = 0; col < COL_NUMBERS; col++) {
+        grid[row][col].distance = 0;
+        grid[row][col].isWall = false;
+        grid[row][col].heuristic = 0;
+        grid[row][col].visited = false;
+        grid[row][col].parent = null;
+        grid[row][col].mazeVisited = false;
+
+        if (grid[row][col] === grid[startNode[0]][startNode[1]]) {
+          document.querySelector(`#node-${row}-${col}`).className =
+            "node node-start";
+        } else if (grid[row][col] === grid[finishNode[0]][finishNode[1]]) {
+          document.querySelector(`#node-${row}-${col}`).className =
+            "node node-finish";
+        } else {
+          document.querySelector(`#node-${row}-${col}`).className = "node";
+        }
+      }
+    }
   }
 
   visualizeDijkstra() {
@@ -97,7 +116,6 @@ class PathfindingVisualizer extends Component {
 
   render() {
     const { grid, mouseIsPressed } = this.state;
-
     return (
       <React.Fragment>
         <div className='grid'>
