@@ -3,6 +3,8 @@ import Node from "./Node/Node";
 import { connect } from "react-redux";
 import { dijkstra, getNodesInShortestPathOrder } from "../algorithms/dijkstra";
 import { aStar, getNodesInShortestPathOrderA } from "../algorithms/aStar";
+import { dfs, getNodesInShortestPathOrderDFS } from "../algorithms/dfs";
+import { bfs, getNodesInShortestPathOrderBFS } from "../algorithms/bfs";
 
 import "./PathfindingVisualizer.css";
 
@@ -40,7 +42,9 @@ class PathfindingVisualizer extends Component {
     ) {
       this.visualizeAStar();
     } else if (this.props.button === "visualize" && this.props.algo === "dfs") {
+      this.visualizeDFS();
     } else if (this.props.button === "visualize" && this.props.algo === "bfs") {
+      this.visualizeBFS();
     } else if (this.props.button === "clear") {
       if (previousProps.button !== this.props.button) {
         this.clearBoard();
@@ -63,7 +67,7 @@ class PathfindingVisualizer extends Component {
     this.setState({ mouseIsPressed: false });
   }
 
-  animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder) {
+  animateSearch(visitedNodesInOrder, nodesInShortestPathOrder) {
     for (let i = 0; i <= visitedNodesInOrder.length; i++) {
       if (i === visitedNodesInOrder.length) {
         setTimeout(() => {
@@ -76,22 +80,6 @@ class PathfindingVisualizer extends Component {
         document.getElementById(`node-${node.row}-${node.col}`).className =
           "node node-visited";
       }, 10 * i);
-    }
-  }
-
-  animateAStar(visitedNodesInOrder, nodesInShortestPathOrder) {
-    for (let i = 0; i <= visitedNodesInOrder.length; i++) {
-      if (i === visitedNodesInOrder.length) {
-        setTimeout(() => {
-          this.animateShortestPath(nodesInShortestPathOrder);
-        }, 20 * i);
-        return;
-      }
-      setTimeout(() => {
-        const node = visitedNodesInOrder[i];
-        document.getElementById(`node-${node.row}-${node.col}`).className =
-          "node node-visited";
-      }, 20 * i);
     }
   }
 
@@ -109,13 +97,12 @@ class PathfindingVisualizer extends Component {
     const { grid, startNode, finishNode } = this.state;
     for (let row = 0; row < ROW_NUMBERS; row++) {
       for (let col = 0; col < COL_NUMBERS; col++) {
-        grid[row][col].distance = 0;
+        grid[row][col].distance = Infinity;
         grid[row][col].isWall = false;
         grid[row][col].heuristic = 0;
         grid[row][col].visited = false;
         grid[row][col].parent = null;
-        grid[row][col].mazeVisited = false;
-
+        grid[row][col].seen = false;
         if (grid[row][col] === grid[startNode[0]][startNode[1]]) {
           document.querySelector(`#node-${row}-${col}`).className =
             "node node-start";
@@ -133,9 +120,19 @@ class PathfindingVisualizer extends Component {
     const { grid } = this.state;
     const startNode = grid[START_NODE_ROW][START_NODE_COL];
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
-    const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
+    const visitedNodesInOrder = dijkstra(grid, startNode);
     const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
-    this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
+    this.animateSearch(visitedNodesInOrder, nodesInShortestPathOrder);
+  }
+
+  visualizeDFS() {
+    const { grid } = this.state;
+    console.log(grid[14]);
+    const startNode = grid[START_NODE_ROW][START_NODE_COL];
+    const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
+    const visitedNodesInOrder = dfs(grid, startNode, finishNode);
+    const nodesInShortestPathOrder = getNodesInShortestPathOrderDFS(finishNode);
+    this.animateSearch(visitedNodesInOrder, nodesInShortestPathOrder);
   }
 
   visualizeAStar() {
@@ -144,7 +141,16 @@ class PathfindingVisualizer extends Component {
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
     const visitedNodesInOrder = aStar(grid, startNode, finishNode);
     const nodesInShortestPathOrder = getNodesInShortestPathOrderA(finishNode);
-    this.animateAStar(visitedNodesInOrder, nodesInShortestPathOrder);
+    this.animateSearch(visitedNodesInOrder, nodesInShortestPathOrder);
+  }
+
+  visualizeBFS() {
+    const { grid } = this.state;
+    const startNode = grid[START_NODE_ROW][START_NODE_COL];
+    const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
+    const visitedNodesInOrder = bfs(grid, startNode, finishNode);
+    const nodesInShortestPathOrder = getNodesInShortestPathOrderBFS(finishNode);
+    this.animateSearch(visitedNodesInOrder, nodesInShortestPathOrder);
   }
 
   render() {
