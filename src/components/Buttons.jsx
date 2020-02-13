@@ -2,13 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./Buttons.css";
 import { connect } from "react-redux";
-import DropDown from "./Buttons/DropDownButton";
+import DropDownAlgorithms from "./Buttons/DropDownAlgorithms";
+import DropDownSpeeds from "./Buttons/DropDownSpeeds";
 import { clearBoard } from "../actions/ClearBoard";
 import { visualize } from "../actions/Visualize";
 const Buttons = ({ visualize, clearBoard }) => {
   return (
     <ul className='nav-links'>
-      <DropDown className='dropdown' />
+      <DropDownAlgorithms className='dropdown' />
       <li>
         <button onClick={visualize}>Vizualize</button>
       </li>
@@ -16,7 +17,7 @@ const Buttons = ({ visualize, clearBoard }) => {
         <button onClick={clearBoard}>Clear Board</button>
       </li>
       <li>
-        <DropDown className='dropdown' />
+        <DropDownSpeeds className='dropdown' />
       </li>
     </ul>
   );

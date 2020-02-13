@@ -6,12 +6,11 @@ import { connect } from "react-redux";
 
 class MainHeader extends React.Component {
   render() {
-    console.log(this.props.algorithms);
     return (
       <React.Fragment>
         <MainButtons>
           <button className='main-navigation__menu-btn'></button>
-          <h2 className='main-navigation__title'>{this.props.algorithms}</h2>
+          <h2 className='main-navigation__title'>Path Finding Visualizer</h2>
           <nav className='main-navigation__header-nav'>
             <Buttons />
           </nav>
@@ -21,8 +20,6 @@ class MainHeader extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  algo: state.algorithms
-});
+const mapStateToProps = state => ({});
 
 export default connect(mapStateToProps)(MainHeader);

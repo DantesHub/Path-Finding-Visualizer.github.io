@@ -1,7 +1,8 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { Component } from "react";
 import Node from "./Node/Node";
 import { connect } from "react-redux";
 import { dijkstra, getNodesInShortestPathOrder } from "../algorithms/dijkstra";
+import { aStar, getNodesInShortestPathOrderA } from "../algorithms/aStar";
 
 import "./PathfindingVisualizer.css";
 
@@ -31,8 +32,15 @@ class PathfindingVisualizer extends Component {
   }
 
   componentDidUpdate(previousProps) {
-    if (this.props.button === "visualize") {
+    if (this.props.button === "visualize" && this.props.algo === "dijkstra") {
       this.visualizeDijkstra();
+    } else if (
+      this.props.button === "visualize" &&
+      this.props.algo === "aStar"
+    ) {
+      this.visualizeAStar();
+    } else if (this.props.button === "visualize" && this.props.algo === "dfs") {
+    } else if (this.props.button === "visualize" && this.props.algo === "bfs") {
     } else if (this.props.button === "clear") {
       if (previousProps.button !== this.props.button) {
         this.clearBoard();
@@ -68,6 +76,22 @@ class PathfindingVisualizer extends Component {
         document.getElementById(`node-${node.row}-${node.col}`).className =
           "node node-visited";
       }, 10 * i);
+    }
+  }
+
+  animateAStar(visitedNodesInOrder, nodesInShortestPathOrder) {
+    for (let i = 0; i <= visitedNodesInOrder.length; i++) {
+      if (i === visitedNodesInOrder.length) {
+        setTimeout(() => {
+          this.animateShortestPath(nodesInShortestPathOrder);
+        }, 20 * i);
+        return;
+      }
+      setTimeout(() => {
+        const node = visitedNodesInOrder[i];
+        document.getElementById(`node-${node.row}-${node.col}`).className =
+          "node node-visited";
+      }, 20 * i);
     }
   }
 
@@ -112,6 +136,15 @@ class PathfindingVisualizer extends Component {
     const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
     const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
     this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
+  }
+
+  visualizeAStar() {
+    const { grid } = this.state;
+    const startNode = grid[START_NODE_ROW][START_NODE_COL];
+    const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
+    const visitedNodesInOrder = aStar(grid, startNode, finishNode);
+    const nodesInShortestPathOrder = getNodesInShortestPathOrderA(finishNode);
+    this.animateAStar(visitedNodesInOrder, nodesInShortestPathOrder);
   }
 
   render() {
@@ -184,7 +217,8 @@ const getNewGridWithWallToggled = (grid, row, col) => {
 };
 
 const mapStateToProps = state => ({
-  button: state.buttons.button
+  button: state.buttons.button,
+  algo: state.algorithms.algo
 });
 
 export default connect(mapStateToProps)(PathfindingVisualizer);

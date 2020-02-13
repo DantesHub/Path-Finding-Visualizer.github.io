@@ -1,25 +1,29 @@
 const initialState = {
-  button: "",
-  clicked: false
+  algo: "dijkstra"
 };
 
 export default function(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
-    case "VISUALIZE":
+    case "dijkstra":
       return {
         ...state,
-        button: payload
+        algo: payload
       };
-    case "CLEAR_BOARD":
+    case "aStar":
       return {
         ...state,
-        button: payload
+        algo: payload
       };
-    case "NORMALIZE":
+    case "bfs":
       return {
         ...state,
-        button: payload
+        algo: payload
+      };
+    case "dfs":
+      return {
+        ...state,
+        algo: payload
       };
     default:
       return state;

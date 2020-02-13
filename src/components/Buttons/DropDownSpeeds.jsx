@@ -8,7 +8,7 @@ class Dropdown extends React.Component {
     this.state = {
       displayMenu: false
     };
-    
+
     this.showDropdownMenu = this.showDropdownMenu.bind(this);
     this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
   }
@@ -30,30 +30,19 @@ class Dropdown extends React.Component {
     return (
       <div className='dropdown'>
         <div className='button' onClick={this.showDropdownMenu}>
-          Algorithms{" "}
+          Speed{" "}
         </div>
 
         {this.state.displayMenu ? (
           <ul>
             <li>
-              <a className='active dijkstra' href='#Create Page'>
-                dijkstra's algo
-              </a>
+              <div className='active dijkstra'>Fast</div>
             </li>
             <li>
-              <a href='#Manage Pages'>Manage Pages</a>
+              <div>Medium</div>
             </li>
             <li>
-              <a href='#Create Ads'>Create Ads</a>
-            </li>
-            <li>
-              <a href='#Manage Ads'>Manage Ads</a>
-            </li>
-            <li>
-              <a href='#Activity Logs'>Activity Logs</a>
-            </li>
-            <li>
-              <a href='#Setting'>Setting</a>
+              <div>Slow</div>
             </li>
           </ul>
         ) : null}

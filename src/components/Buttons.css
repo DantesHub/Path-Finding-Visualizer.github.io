@@ -22,9 +22,9 @@
   padding: 0.5rem;
 }
 
-.nav-links a:hover,
-.nav-links a:active,
-.nav-links a.active {
+.nav-links div:hover,
+.nav-links div:active,
+.nav-links div.active {
   background: #f8ea8c;
   border-color: #00aba8;
   color: #00aba8;
