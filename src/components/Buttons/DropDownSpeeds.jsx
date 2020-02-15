@@ -1,12 +1,17 @@
 import React from "react";
 import "./DropDownButton.css";
+import { connect } from "react-redux";
+import { chooseSpeed } from "../../actions/ChooseSpeed";
 
-class Dropdown extends React.Component {
+class DropDownSpeeds extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      displayMenu: false
+      displayMenu: false,
+      fast: true,
+      medium: false,
+      slow: false
     };
 
     this.showDropdownMenu = this.showDropdownMenu.bind(this);
@@ -25,6 +30,28 @@ class Dropdown extends React.Component {
       document.removeEventListener("click", this.hideDropdownMenu);
     });
   }
+  toggleClass(speed) {
+    this.props.chooseSpeed(speed);
+    if (speed === "slow") {
+      this.setState({
+        slow: true,
+        medium: false,
+        fast: false
+      });
+    } else if (speed === "medium") {
+      this.setState({
+        slow: false,
+        medium: true,
+        fast: false
+      });
+    } else if (speed === "fast") {
+      this.setState({
+        slow: false,
+        medium: false,
+        fast: true
+      });
+    }
+  }
 
   render() {
     return (
@@ -36,13 +63,28 @@ class Dropdown extends React.Component {
         {this.state.displayMenu ? (
           <ul>
             <li>
-              <div className='active dijkstra'>Fast</div>
+              <div
+                className={this.state.fast ? "active" : null}
+                onClick={() => this.toggleClass("fast")}
+              >
+                Fast
+              </div>
             </li>
             <li>
-              <div>Medium</div>
+              <div
+                className={this.state.medium ? "active" : null}
+                onClick={() => this.toggleClass("medium")}
+              >
+                Medium
+              </div>
             </li>
             <li>
-              <div>Slow</div>
+              <div
+                className={this.state.slow ? "active" : null}
+                onClick={() => this.toggleClass("slow")}
+              >
+                Slow
+              </div>
             </li>
           </ul>
         ) : null}
@@ -51,4 +93,4 @@ class Dropdown extends React.Component {
   }
 }
 
-export default Dropdown;
+export default connect(null, { chooseSpeed })(DropDownSpeeds);

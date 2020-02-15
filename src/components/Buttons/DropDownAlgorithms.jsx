@@ -1,6 +1,5 @@
 import React from "react";
 import "./DropDownButton.css";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { chooseAlgo } from "../../actions/ChooseAlgo";
 

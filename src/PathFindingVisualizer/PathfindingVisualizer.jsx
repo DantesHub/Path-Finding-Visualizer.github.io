@@ -19,6 +19,8 @@ class PathfindingVisualizer extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      visualize: false,
+      speed: 10,
       grid: [],
       onStartNode: false,
       startNode: [START_NODE_ROW, START_NODE_COL],
@@ -50,6 +52,20 @@ class PathfindingVisualizer extends Component {
         this.clearBoard();
       }
     }
+
+    if (this.props.speed === "fast") {
+      if (previousProps.speed !== this.props.speed) {
+        this.setState({ speed: 10 });
+      }
+    } else if (this.props.speed === "medium") {
+      if (previousProps.speed !== this.props.speed) {
+        this.setState({ speed: 30 });
+      }
+    } else if (this.props.speed === "slow") {
+      if (previousProps.speed !== this.props.speed) {
+        this.setState({ speed: 50 });
+      }
+    }
   }
 
   handleMouseDown(row, col) {
@@ -72,14 +88,14 @@ class PathfindingVisualizer extends Component {
       if (i === visitedNodesInOrder.length) {
         setTimeout(() => {
           this.animateShortestPath(nodesInShortestPathOrder);
-        }, 10 * i);
-        return;
+        }, this.state.speed * i);
+        return true;
       }
       setTimeout(() => {
         const node = visitedNodesInOrder[i];
         document.getElementById(`node-${node.row}-${node.col}`).className =
           "node node-visited";
-      }, 10 * i);
+      }, this.state.speed * i);
     }
   }
 
@@ -125,14 +141,16 @@ class PathfindingVisualizer extends Component {
     this.animateSearch(visitedNodesInOrder, nodesInShortestPathOrder);
   }
 
-  visualizeDFS() {
+  async visualizeDFS() {
     const { grid } = this.state;
     console.log(grid[14]);
     const startNode = grid[START_NODE_ROW][START_NODE_COL];
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
     const visitedNodesInOrder = dfs(grid, startNode, finishNode);
     const nodesInShortestPathOrder = getNodesInShortestPathOrderDFS(finishNode);
-    this.animateSearch(visitedNodesInOrder, nodesInShortestPathOrder);
+    await this.animateSearch(visitedNodesInOrder, nodesInShortestPathOrder);
+    this.setState({ visualize: false });
+    console.log("bang");
   }
 
   visualizeAStar() {
@@ -224,7 +242,8 @@ const getNewGridWithWallToggled = (grid, row, col) => {
 
 const mapStateToProps = state => ({
   button: state.buttons.button,
-  algo: state.algorithms.algo
+  algo: state.algorithms.algo,
+  speed: state.speeds.speed
 });
 
 export default connect(mapStateToProps)(PathfindingVisualizer);

@@ -23,7 +23,7 @@
 }
 .dropdown li {
   margin: 0;
-  padding: 8px 16px;
+  padding: 6px 4px;
   border-bottom: 1px solid #e5e5e5;
 }
 .dropdown li:last-child {
