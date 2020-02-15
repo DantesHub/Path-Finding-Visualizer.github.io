@@ -9,7 +9,7 @@ function App() {
     <Provider store={store}>
       <div className='App'>
         <Header></Header>
-
+        <h3 style={{ marginTop: "5rem" }}>Drag around grid to add walls</h3>
         <PathfindingVisualizer> </PathfindingVisualizer>
       </div>
     </Provider>

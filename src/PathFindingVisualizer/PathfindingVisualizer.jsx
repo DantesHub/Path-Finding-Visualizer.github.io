@@ -8,9 +8,9 @@ import { bfs, getNodesInShortestPathOrderBFS } from "../algorithms/bfs";
 
 import "./PathfindingVisualizer.css";
 
-const START_NODE_ROW = 14;
+const START_NODE_ROW = 12;
 const START_NODE_COL = 15;
-const FINISH_NODE_ROW = 14;
+const FINISH_NODE_ROW = 12;
 const FINISH_NODE_COL = 40;
 const ROW_NUMBERS = 30;
 const COL_NUMBERS = 55;
@@ -208,7 +208,7 @@ class PathfindingVisualizer extends Component {
 }
 const getInitialGrid = () => {
   const grid = [];
-  for (let row = 0; row < 30; row++) {
+  for (let row = 0; row < 28; row++) {
     const currentRow = [];
     for (let col = 0; col < 55; col++) {
       currentRow.push(createNode(col, row));

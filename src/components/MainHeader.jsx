@@ -11,6 +11,7 @@ class MainHeader extends React.Component {
         <MainButtons>
           <button className='main-navigation__menu-btn'></button>
           <h2 className='main-navigation__title'>Path Finding Visualizer</h2>
+
           <nav className='main-navigation__header-nav'>
             <Buttons />
           </nav>
