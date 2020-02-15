@@ -5,5 +5,5 @@ User can create walls or obstacles by clicking and dragging around the grid <br>
 which the  algorithm will accomadate for in its calculation.<br>
 User can also vary the speed of the algorithm <br> 
 <br>
-Demo: https://github.com/DantesHub/Path-Finding-Visualizer
+Demo: https://danteshub.github.io/Path-Finding-Visualizer/
 
