@@ -1,2 +1,7 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).<br>
-Path Finding Visuzlizer built with basic React Components and Redux for state managment.
+Path Finding Visualizer built using React and Redux. <br>
+Algorithms: A*, Dijkstra, Breadth First Search and Depth First Search <br>
+User can create walls or obstacles by clicking and dragging around the grid <br>
+which the  algorithm will accomadate for in its calculation.<br>
+User can also vary the speed of the algorithm <br> 
+
+
